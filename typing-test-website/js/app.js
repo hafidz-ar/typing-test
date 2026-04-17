@@ -19,7 +19,14 @@ import {
   setActiveDuration,
   showCapsLockWarning,
   hideCapsLockWarning,
+  appendChars,
+  scrollToActiveLine,
+  resetScroll,
+  setResizeCallback,
 } from './uiRenderer.js';
+
+// Number of characters remaining before end of currentText that triggers proactive extension
+const EXTENSION_THRESHOLD = 20;
 
 // ---------------------------------------------------------------------------
 // AppState — single source of truth (Req 1.1, 1.4, 4.1)
@@ -137,6 +144,9 @@ export function init() {
   setActiveLanguage(AppState.language);
   setActiveDuration(AppState.duration);
   updateTimer(AppState.duration);
+
+  // Re-scroll to current cursor position whenever the text area is resized (Req 1.2)
+  setResizeCallback(() => scrollToActiveLine(AppState.cursorPosition));
 }
 
 /**
@@ -171,6 +181,20 @@ function _loadNewText() {
   if (AppState.currentText.length > 0) {
     updateCharState(0, 'cursor');
   }
+}
+
+/**
+ * Append additional words to the current session text and render the new spans.
+ * Called proactively when the cursor approaches the end of currentText.
+ * @private
+ */
+function _extendText() {
+  const newWords = generateText(AppState.language, 20);
+  const newChars = buildCharArray(newWords);
+  const separator = { char: ' ', state: 'pending' };
+  const extension = [separator, ...newChars];
+  AppState.currentText.push(...extension);
+  appendChars(extension.map((e) => e.char));
 }
 
 // ---------------------------------------------------------------------------
@@ -252,9 +276,16 @@ export function handleKeyInput(event) {
   // Advance cursor
   const nextPos = pos + 1;
   AppState.cursorPosition = nextPos;
+  scrollToActiveLine(nextPos);
 
   if (nextPos < AppState.currentText.length) {
     updateCharState(nextPos, 'cursor');
+  }
+
+  // Proactive text extension — fix for text-exhaustion bug (Req 2.1, 2.2, 2.3)
+  const remaining = AppState.currentText.length - AppState.cursorPosition;
+  if (AppState.status === 'running' && remaining <= EXTENSION_THRESHOLD) {
+    _extendText();
   }
 }
 
@@ -291,6 +322,7 @@ function _handleBackspace() {
   }
 
   AppState.cursorPosition = prevPos;
+  scrollToActiveLine(prevPos);
 }
 
 // ---------------------------------------------------------------------------
@@ -318,6 +350,9 @@ export function resetSession() {
 
   // Restore timer display to selected duration (Req 8.3)
   updateTimer(AppState.duration);
+
+  // Reset scroll position before loading new text (Req 2.4)
+  resetScroll();
 
   // Load a new (different) text and render it (Req 8.2)
   _loadNewText();

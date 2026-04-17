@@ -173,12 +173,19 @@ body {
   font-family: var(--font-family);
   font-weight: 500;
   line-height: 1.9;
-  min-height: 180px;
+  height: 9.5em;
+  overflow: hidden;
+  position: relative;
   margin-bottom: clamp(1.5rem, 3vw, 2rem);
   word-break: break-word;
   overflow-wrap: break-word;
   user-select: none;
   -webkit-user-select: none;
+}
+
+.text-area__content {
+  transition: transform 200ms ease;
+  will-change: transform;
 }
 
 /* Character span states */
