@@ -307,3 +307,24 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ============================================================
+   Caps Lock Warning
+   ============================================================ */
+.caps-lock-warning {
+  border: var(--border-std);
+  box-shadow: var(--shadow-sm);
+  background-color: var(--color-wrong);
+  color: var(--color-white);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.5rem 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.caps-lock-warning.hidden {
+  display: none;
+}

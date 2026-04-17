@@ -17,6 +17,8 @@ import {
   hideResultScreen,
   setActiveLanguage,
   setActiveDuration,
+  showCapsLockWarning,
+  hideCapsLockWarning,
 } from './uiRenderer.js';
 
 // ---------------------------------------------------------------------------
@@ -50,6 +52,9 @@ const AppState = {
 
   /** Tracks last generated word array to prevent identical consecutive texts. */
   lastGeneratedText: '',
+
+  /** Current Caps Lock state (Req 2.1, 2.3, 2.6). */
+  capsLockActive: false,
 };
 
 // ---------------------------------------------------------------------------
@@ -177,6 +182,17 @@ function _loadNewText() {
  * @param {KeyboardEvent} event
  */
 export function handleKeyInput(event) {
+  // Caps Lock detection — runs before all guards so warning can be hidden even after finish (Req 2.1, 2.3, 2.6, 2.7)
+  if (typeof event.getModifierState === 'function') {
+    const capsLock = event.getModifierState('CapsLock');
+    AppState.capsLockActive = capsLock;
+    if (capsLock) {
+      showCapsLockWarning();
+    } else {
+      hideCapsLockWarning();
+    }
+  }
+
   // Ignore all input when session is finished (Req 4.4)
   if (AppState.status === 'finished') return;
 

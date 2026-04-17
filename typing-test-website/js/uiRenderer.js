@@ -10,6 +10,7 @@ const resultWpm = document.getElementById('result-wpm');
 const resultAccuracy = document.getElementById('result-accuracy');
 const resultCorrect = document.getElementById('result-correct');
 const resultWrong = document.getElementById('result-wrong');
+const capsLockWarning = document.getElementById('caps-lock-warning');
 
 /**
  * Render an array of characters as individual <span> elements in the text area.
@@ -75,6 +76,22 @@ export function showResultScreen() {
  */
 export function hideResultScreen() {
   resultScreen.hidden = true;
+}
+
+/**
+ * Show the Caps Lock warning element.
+ */
+export function showCapsLockWarning() {
+  if (!capsLockWarning) return;
+  capsLockWarning.classList.remove('hidden');
+}
+
+/**
+ * Hide the Caps Lock warning element.
+ */
+export function hideCapsLockWarning() {
+  if (!capsLockWarning) return;
+  capsLockWarning.classList.add('hidden');
 }
 
 /**
