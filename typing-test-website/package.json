@@ -1,0 +1,19 @@
+{
+  "name": "typing-test-website",
+  "version": "1.0.0",
+  "description": "Browser-based typing speed and accuracy test supporting English and Indonesian",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --runInBand",
+    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch"
+  },
+  "devDependencies": {
+    "fast-check": "latest",
+    "jest": "latest",
+    "jest-environment-jsdom": "latest"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
+  }
+}

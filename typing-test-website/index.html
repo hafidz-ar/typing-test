@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Typing Test</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-wrapper">
+
+    <header class="header">
+      <div class="header__title">TYPING TEST</div>
+      <nav class="language-selector" aria-label="Language selection">
+        <button class="language-btn active" data-lang="english" aria-pressed="true">English</button>
+        <button class="language-btn" data-lang="indonesia" aria-pressed="false">Indonesia</button>
+      </nav>
+    </header>
+
+    <main class="main">
+
+      <section class="duration-selector" aria-label="Duration selection">
+        <button class="duration-btn" data-duration="15">15s</button>
+        <button class="duration-btn" data-duration="30">30s</button>
+        <button class="duration-btn active" data-duration="60" aria-pressed="true">60s</button>
+        <button class="duration-btn" data-duration="120">120s</button>
+      </section>
+
+      <div class="timer-display" id="timer-display" aria-live="polite" aria-label="Time remaining">
+        60
+      </div>
+
+      <div class="text-area" id="text-area" aria-label="Typing test text" aria-readonly="true">
+        <!-- Character spans rendered by uiRenderer.js -->
+      </div>
+
+      <div class="controls">
+        <button class="reset-btn" id="reset-btn" aria-label="Reset session (Tab + Enter)">
+          ↺ RESET
+        </button>
+      </div>
+
+    </main>
+
+    <!-- Result Screen (hidden by default) -->
+    <section class="result-screen" id="result-screen" aria-live="assertive" hidden>
+      <h2 class="result-screen__title">Results</h2>
+      <div class="result-grid">
+        <div class="result-card">
+          <span class="result-card__label">WPM</span>
+          <span class="result-card__value" id="result-wpm">0</span>
+        </div>
+        <div class="result-card">
+          <span class="result-card__label">Accuracy</span>
+          <span class="result-card__value" id="result-accuracy">0%</span>
+        </div>
+        <div class="result-card">
+          <span class="result-card__label">Correct</span>
+          <span class="result-card__value" id="result-correct">0</span>
+        </div>
+        <div class="result-card">
+          <span class="result-card__label">Wrong</span>
+          <span class="result-card__value" id="result-wrong">0</span>
+        </div>
+      </div>
+      <button class="reset-btn" id="result-reset-btn" aria-label="Try again">
+        ↺ TRY AGAIN
+      </button>
+    </section>
+
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
